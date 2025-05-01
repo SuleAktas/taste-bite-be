@@ -2,7 +2,7 @@ package com.suleaktasyazan.TasteBiteBE.service;
 
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipe;
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipePreview;
-import com.suleaktasyazan.TasteBiteBE.dto.MealDto;
+import com.suleaktasyazan.TasteBiteBE.dto.DtoMeal;
 import com.suleaktasyazan.TasteBiteBE.entity.Recipe;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public interface IRecipeService {
     public DtoRecipe createRecipe(DtoRecipe recipe);
 
 
-    public void saveMeals(List<MealDto> mealDTOs);
+    public void saveMeals(List<DtoMeal> mealDTOs);
 
     public Recipe updateRecipe(Long id,Recipe recipe);
 

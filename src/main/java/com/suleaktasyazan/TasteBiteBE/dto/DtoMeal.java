@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MealDto {
+public class DtoMeal {
 
         private String idMeal;
         private String strMeal;
@@ -64,7 +64,5 @@ public class MealDto {
         private String strImageSource;
         private String strCreativeCommonsConfirmed;
         private String dateModified;
-
-        // Getters and Setters
 
 }

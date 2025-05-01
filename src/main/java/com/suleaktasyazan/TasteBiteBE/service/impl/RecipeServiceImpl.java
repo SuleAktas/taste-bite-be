@@ -2,7 +2,7 @@ package com.suleaktasyazan.TasteBiteBE.service.impl;
 
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipe;
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipePreview;
-import com.suleaktasyazan.TasteBiteBE.dto.MealDto;
+import com.suleaktasyazan.TasteBiteBE.dto.DtoMeal;
 import com.suleaktasyazan.TasteBiteBE.entity.Category;
 import com.suleaktasyazan.TasteBiteBE.entity.Recipe;
 import com.suleaktasyazan.TasteBiteBE.entity.Writer;
@@ -12,8 +12,6 @@ import com.suleaktasyazan.TasteBiteBE.repository.WriterRepository;
 import com.suleaktasyazan.TasteBiteBE.service.IRecipeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -119,13 +117,13 @@ public class RecipeServiceImpl implements IRecipeService {
         return null;
     }
 
-    public void saveMeals(List<MealDto> mealDTOs) {
+    public void saveMeals(List<DtoMeal> mealDTOs) {
 
         List<Recipe> recipes = new ArrayList<>();
         Random rand = new Random();
 
 
-        for (MealDto mealDTO : mealDTOs) {
+        for (DtoMeal mealDTO : mealDTOs) {
             Recipe recipe = new Recipe();
             recipe.setName(mealDTO.getStrMeal());
             recipe.setRating( String.valueOf(rand.nextInt(8) + 1));
@@ -168,13 +166,13 @@ public class RecipeServiceImpl implements IRecipeService {
 
         recipeRepository.saveAll(recipes);
     }
-    private String mapIngredientsWithMeasures(MealDto mealDTO) {
+    private String mapIngredientsWithMeasures(DtoMeal mealDTO) {
         List<String> combinedList = new ArrayList<>();
 
         for (int i = 1; i <= 20; i++) {
             try {
-                String ingredient = (String) MealDto.class.getMethod("getStrIngredient" + i).invoke(mealDTO);
-                String measure = (String) MealDto.class.getMethod("getStrMeasure" + i).invoke(mealDTO);
+                String ingredient = (String) DtoMeal.class.getMethod("getStrIngredient" + i).invoke(mealDTO);
+                String measure = (String) DtoMeal.class.getMethod("getStrMeasure" + i).invoke(mealDTO);
 
                 if (ingredient != null && !ingredient.trim().isEmpty()) {
                     StringBuilder item = new StringBuilder();
