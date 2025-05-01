@@ -2,10 +2,8 @@ package com.suleaktasyazan.TasteBiteBE.service.impl;
 
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipe;
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipePreview;
-import com.suleaktasyazan.TasteBiteBE.dto.DtoMeal;
 import com.suleaktasyazan.TasteBiteBE.entity.Category;
 import com.suleaktasyazan.TasteBiteBE.entity.Recipe;
-import com.suleaktasyazan.TasteBiteBE.entity.Writer;
 import com.suleaktasyazan.TasteBiteBE.repository.CategoryRepository;
 import com.suleaktasyazan.TasteBiteBE.repository.RecipeRepository;
 import com.suleaktasyazan.TasteBiteBE.repository.WriterRepository;
@@ -117,81 +115,5 @@ public class RecipeServiceImpl implements IRecipeService {
         return null;
     }
 
-    public void saveMeals(List<DtoMeal> mealDTOs) {
-
-        List<Recipe> recipes = new ArrayList<>();
-        Random rand = new Random();
-
-
-        for (DtoMeal mealDTO : mealDTOs) {
-            Recipe recipe = new Recipe();
-            recipe.setName(mealDTO.getStrMeal());
-            recipe.setRating( String.valueOf(rand.nextInt(8) + 1));
-            recipe.setPhotoUrl(mealDTO.getStrMealThumb());
-            recipe.setVideoUrl(mealDTO.getStrYoutube());
-            recipe.setIngredients(mapIngredientsWithMeasures(mealDTO));
-            recipe.setInstructions(mealDTO.getStrInstructions());
-            recipe.setDescription(mealDTO.getStrCategory());
-            recipe.setPrepTime( String.valueOf(rand.nextInt(60) + 1));
-            recipe.setServings( rand.nextInt(6) + 1);
-            recipe.setCreatedDate(new Date());
-
-            Optional<Category> opt = categoryRepository.findByName(mealDTO.getStrCategory());
-            if(opt.isPresent()){
-                recipe.setCategory(opt.get());
-            }
-            else{
-                Category category = new Category();
-                category.setCreatedDate(new Date());
-                category.setName(mealDTO.getStrCategory());
-                category.setPhotoUrl("sadfasf");
-                categoryRepository.save(category);
-            }
-
-            Optional<Writer> optWriter = writerRepository.findByName("Sule Aktas");
-            if(optWriter.isPresent()){
-                recipe.setWriter(optWriter.get());
-            }
-            else{
-                Writer writer = new Writer();
-                writer.setName("Sule Yazan");
-                writer.setCreatedDate(new Date());
-                writerRepository.save(writer);
-                recipe.setWriter(writer);
-            }
-
-
-            recipes.add(recipe);
-        }
-
-        recipeRepository.saveAll(recipes);
-    }
-    private String mapIngredientsWithMeasures(DtoMeal mealDTO) {
-        List<String> combinedList = new ArrayList<>();
-
-        for (int i = 1; i <= 20; i++) {
-            try {
-                String ingredient = (String) DtoMeal.class.getMethod("getStrIngredient" + i).invoke(mealDTO);
-                String measure = (String) DtoMeal.class.getMethod("getStrMeasure" + i).invoke(mealDTO);
-
-                if (ingredient != null && !ingredient.trim().isEmpty()) {
-                    StringBuilder item = new StringBuilder();
-
-                    if (measure != null && !measure.trim().isEmpty()) {
-                        item.append(measure.trim()).append(" ");
-                    }
-
-                    item.append(ingredient.trim());
-                    combinedList.add(item.toString());
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return String.join(",", combinedList);
-
-    }
 
 }

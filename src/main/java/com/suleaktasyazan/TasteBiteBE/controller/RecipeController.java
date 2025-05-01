@@ -2,7 +2,6 @@ package com.suleaktasyazan.TasteBiteBE.controller;
 
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipe;
 import com.suleaktasyazan.TasteBiteBE.dto.DtoRecipePreview;
-import com.suleaktasyazan.TasteBiteBE.dto.DtoMeal;
 import com.suleaktasyazan.TasteBiteBE.entity.Recipe;
 import com.suleaktasyazan.TasteBiteBE.service.IRecipeService;
 import jakarta.validation.Valid;
@@ -37,13 +36,13 @@ public class RecipeController{
     }
 
 
-    @GetMapping(path="recipeByName/q={name}")
+    @GetMapping(path="recipeByName/{name}")
     public List<DtoRecipePreview> getRecipeByName(@PathVariable(name="name") String name){
         return recipeService.getRecipeByName(name);
     }
 
 
-    @GetMapping(path="/recipeByCategoryName/q={name}")
+    @GetMapping(path="/recipe-by-category-name/{name}")
     public List<DtoRecipePreview> getRecipeByCategoryName(@PathVariable(name="name") String name){
         return recipeService.getRecipeByCategoryName(name);
     }
@@ -61,9 +60,4 @@ public class RecipeController{
         return recipeService.updateRecipe(id,recipe);
     }
 
-
-    @PostMapping(path = "/saveMealsFromApi")
-    public void saveMealsFromApi(@RequestBody List<DtoMeal> meals){
-        recipeService.saveMeals(meals);
-    }
 }
